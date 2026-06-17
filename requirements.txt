@@ -16,6 +16,6 @@ langchain-google-genai
 google-generativeai
 pytest
 pytest-flask
-gunicorn
+gunicorn==22.0.0
 eventlet
 greenlet
