@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Available Courses{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-gray-800 mb-8">Available Courses</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="mb-4 p-4 rounded {% if category == 'error' %}bg-red-200 text-red-800{% else %}bg-green-200 text-green-800{% endif %}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for course in courses %}
+        <div class="bg-white rounded-lg shadow-md overflow-hidden transition duration-300 hover:shadow-lg">
+            <div class="p-6">
+                <h3 class="text-lg font-bold text-gray-900 mb-2">{{ course.name }}</h3>
+                <p class="text-sm text-gray-600 mb-4">{{ course.subject.name }}</p>
+                <p class="text-xs text-gray-400 mb-4">Semester: {{ course.semester.name }}</p>
+                
+                <form action="{{ url_for('student.enroll', course_id=course.id) }}" method="POST">
+                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">
+                        Enroll Now
+                    </button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if not courses %}
+        <div class="text-center py-12">
+            <p class="text-gray-500 text-xl">No courses available at the moment.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Create Assignment{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-2xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
+        <div class="px-6 py-4 bg-gray-100 border-b border-gray-200">
+            <h2 class="text-xl font-bold text-gray-800">Create New Assignment</h2>
+            <p class="text-sm text-gray-600">Course ID: {{ course_id }}</p>
+        </div>
+
+        <form method="POST" class="p-6 space-y-4">
+            <div>
+                <label for="title" class="block text-sm font-medium text-gray-700">Assignment Title</label>
+                <input type="text" name="title" id="title" required
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    placeholder="e.g., Final Project: Machine Learning Application">
+            </div>
+
+            <div>
+                <label for="description" class="block text-sm font-medium text-gray-700">Description/Instructions</label>
+                <textarea name="description" id="description" rows="5"
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    placeholder="Provide detailed instructions for the students..."></textarea>
+            </div>
+
+            <div>
+                <label for="due_date" class="block text-sm font-medium text-gray-700">Due Date and Time</label>
+                <input type="datetime-local" name="due_date" id="due_date" required
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>
+
+            <div class="flex items-center justify-end space-x-4 pt-4">
+                <a href="{{ url_for('course.view_course', course_id=course_id) }}" class="text-gray-600 hover:text-gray-800 font-medium">
+                    Cancel
+                </a>
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">
+                    Create Assignment
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

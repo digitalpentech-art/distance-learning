@@ -1,26 +1,56 @@
 {% extends "base.html" %}
+
+{% block title %}Add Question{% endblock %}
+
 {% block content %}
-<h2 class="text-2xl mb-4">Add Question</h2>
-<form method="POST">
-    <div class="mb-4">
-        <label class="block">Question Text</label>
-        <textarea name="text" class="w-full border p-2" required></textarea>
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-2xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
+        <div class="px-6 py-4 bg-gray-100 border-b border-gray-200">
+            <h2 class="text-xl font-bold text-gray-800">Add New Question</h2>
+            <p class="text-sm text-gray-600">Quiz: {{ quiz.title }}</p>
+        </div>
+
+        <form method="POST" class="p-6 space-y-4">
+            <div>
+                <label for="text" class="block text-sm font-medium text-gray-700">Question Text</label>
+                <textarea name="text" id="text" rows="4" required
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    placeholder="Enter the question text here..."></textarea>
+            </div>
+
+            <div>
+                <label for="type" class="block text-sm font-medium text-gray-700">Question Type</label>
+                <select name="type" id="type" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    <option value="MCQ">Multiple Choice (MCQ)</option>
+                    <option value="TrueFalse">True/False</option>
+                    <option value="FillBlank">Fill in the Blank</option>
+                    <option value="Matching">Matching</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="options" class="block text-sm font-medium text-gray-700">Options (one per line for MCQ)</label>
+                <textarea name="options" id="options" rows="4"
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    placeholder="A) Option 1&#10;B) Option 2&#10;C) Option 3&#10;D) Option 4"></textarea>
+            </div>
+
+            <div>
+                <label for="answer" class="block text-sm font-medium text-gray-700">Correct Answer</label>
+                <input type="text" name="answer" id="answer" required
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    placeholder="The exact text of the correct answer">
+            </div>
+
+            <div class="flex items-center justify-end space-x-4 pt-4">
+                <a href="{{ url_for('course.view_course', course_id=quiz.course_id) }}" class="text-gray-600 hover:text-gray-800 font-medium">
+                    Cancel
+                </a>
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">
+                    Add Question
+                </button>
+            </div>
+        </form>
     </div>
-    <div class="mb-4">
-        <label class="block">Type</label>
-        <select name="type" class="w-full border p-2">
-            <option value="MCQ">MCQ</option>
-            <option value="TrueFalse">True/False</option>
-        </select>
-    </div>
-    <div class="mb-4">
-        <label class="block">Options (for MCQ, comma separated)</label>
-        <input type="text" name="options" class="w-full border p-2">
-    </div>
-    <div class="mb-4">
-        <label class="block">Answer</label>
-        <input type="text" name="answer" class="w-full border p-2" required>
-    </div>
-    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Add Question</button>
-</form>
+</div>
 {% endblock %}

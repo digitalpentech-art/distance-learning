@@ -9,8 +9,9 @@ from app.models.assignment import Submission # Placeholder for recommendation lo
 @login_required
 def ai_tutor():
     data = request.get_json()
-    prompt = f"Explain the following concept to a student: {data.get('question')}"
-    response = generate_course_content(prompt)
+    question = data.get('question')
+    # In a real app, we might also pass context like current course or last topic studied
+    response = generate_ai_tutor_response(question)
     return jsonify({"response": response}), 200
 
 @ai.route('/generate-quiz', methods=['POST'])
@@ -30,10 +31,16 @@ def generate_exam():
 @ai.route('/recommendations', methods=['GET'])
 @login_required
 def get_recommendations():
-    # Placeholder logic: Analyze student submissions/results
-    # Here we would query the database for user performance
-    # For now, just generate a generic recommendation based on a mock prompt
-    prompt = f"Provide study recommendations for a student who is struggling with course topics."
-    response = generate_course_content(prompt)
+    # In a real app, we would query the database for the user's actual performance
+    # e.g., quiz scores, exam results, completed topics, etc.
+    mock_performance_data = {
+        "user_id": current_user.id,
+        "username": current_user.username,
+        "recent_quiz_scores": [75, 82, 60],
+        "weak_topics": ["Neural Networks", "Backpropagation"],
+        "completed_topics": ["Linear Regression", "Gradient Descent"]
+    }
+    
+    response = generate_recommendations(str(mock_performance_data))
     return jsonify({"recommendations": response}), 200
 

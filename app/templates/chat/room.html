@@ -1,28 +1,89 @@
 {% extends "base.html" %}
+
+{% block title %}Chat: {{ room.name }}{% endblock %}
+
 {% block content %}
-<h2 class="text-2xl mb-4">Chat Room: {{ room }}</h2>
-<div id="messages" class="h-64 overflow-y-scroll border p-4 bg-white mb-4"></div>
-<input id="messageInput" class="border p-2 w-full" placeholder="Type a message...">
-<button id="sendBtn" class="bg-blue-500 text-white px-4 py-2 mt-2">Send</button>
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+        <div class="px-6 py-4 bg-blue-600 text-white">
+            <h1 class="text-xl font-bold">{{ room.name }}</h1>
+        </div>
+
+        <div id="messages" class="h-96 overflow-y-scroll p-6 space-y-4 bg-gray-50">
+            {% for msg in room.messages %}
+                <div class="{% if msg.sender_id == current_user.id %}text-right{% endif %}">
+                    <span class="text-xs text-gray-500">{{ msg.sender.username }} • {{ msg.timestamp.strftime('%H:%M') }}</span>
+                    <p class="{% if msg.sender_id == current_user.id %}bg-blue-600 text-white{% else %}bg-gray-200 text-gray-900{% endif %} inline-block p-3 rounded-lg max-w-sm">
+                        {{ msg.content }}
+                    </p>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div id="typing-indicator" class="px-6 py-2 text-sm text-gray-500 italic hidden"></div>
+
+        <div class="p-4 border-t border-gray-200 bg-white">
+            <div class="flex space-x-2">
+                <input id="messageInput" class="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Type a message...">
+                <button id="sendBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300">
+                    Send
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.1/socket.io.js"></script>
 <script>
     const socket = io();
-    const room = "{{ room }}";
-    
+    const roomId = "{{ room.id }}";
+    const username = "{{ current_user.username }}";
+    const messagesDiv = document.getElementById('messages');
+    const messageInput = document.getElementById('messageInput');
+    const typingIndicator = document.getElementById('typing-indicator');
+
     socket.on('connect', () => {
-        socket.emit('join', {room: room});
+        socket.emit('join', {room: roomId});
     });
 
-    socket.on('message', (msg) => {
-        const div = document.getElementById('messages');
-        div.innerHTML += `<p>${msg}</p>`;
+    socket.on('message', (data) => {
+        const div = document.createElement('div');
+        div.className = (data.sender_id === {{ current_user.id }}) ? 'text-right' : '';
+        div.innerHTML = `
+            <span class="text-xs text-gray-500">${data.user} • ${data.timestamp}</span>
+            <p class="${(data.sender_id === {{ current_user.id }}) ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-900'} inline-block p-3 rounded-lg max-w-sm">
+                ${data.msg}
+            </p>
+        `;
+        messagesDiv.appendChild(div);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    });
+
+    // Typing Indicator
+    let typingTimer;
+    messageInput.addEventListener('input', () => {
+        socket.emit('typing', {room: roomId, is_typing: true});
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(() => {
+            socket.emit('typing', {room: roomId, is_typing: false});
+        }, 1000);
+    });
+
+    socket.on('display_typing', (data) => {
+        if (data.is_typing) {
+            typingIndicator.textContent = `${data.user} is typing...`;
+            typingIndicator.classList.remove('hidden');
+        } else {
+            typingIndicator.classList.add('hidden');
+        }
     });
 
     document.getElementById('sendBtn').onclick = () => {
-        const msg = document.getElementById('messageInput').value;
-        socket.emit('message', {room: room, message: msg});
-        document.getElementById('messageInput').value = '';
+        const msg = messageInput.value;
+        if (msg) {
+            socket.emit('message', {room: roomId, message: msg});
+            messageInput.value = '';
+        }
     };
 </script>
 {% endblock %}

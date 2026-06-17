@@ -1,20 +1,20 @@
 # AI-Powered Distance Learning Management System
 
-A production-grade, AI-powered LMS with intelligent course generation, learning analytics, and real-time collaboration.
+An enterprise-grade, AI-powered LMS designed for intelligent course generation, advanced learning analytics, and real-time collaboration.
 
 ## Features
-- **AI-Powered:** Course/Quiz/Exam generation, AI Tutor, and Study Recommendations.
-- **Real-Time Collaboration:** Group and Private Chat using SocketIO.
-- **Academic Hierarchy:** Faculty -> Department -> Programme -> Level -> Session -> Semester -> Subject -> Course.
-- **Modules:** Assignment submission, CBT Examinations, Certificate generation.
-- **Analytics:** Performance dashboards for Students, Lecturers, and Admins.
+- **AI-Powered:** Automatic Course, Quiz, and Exam generation, AI Tutor, and Study Recommendation Engine based on student performance.
+- **Academic Hierarchy:** Comprehensive faculty-to-course management structure.
+- **Collaboration:** Real-time chat (Group/Private) using SocketIO.
+- **Assessments:** CBT Examinations and Assignment management with automated grading.
+- **Analytics:** Rich dashboards for Admin, Lecturer, and Student roles.
+- **Secure:** Built-in authentication (JWT), RBAC, and input validation.
 
 ## Tech Stack
-- **Backend:** Python 3.13+, Flask, Flask-SQLAlchemy, Celery, Redis.
-- **Frontend:** HTML5, Tailwind CSS, Alpine JS, Chart.js.
-- **AI:** Gemini API.
+- **Backend:** Python 3.13, Flask, SQLAlchemy, Celery, Redis, LangChain, Gemini API.
+- **Frontend:** HTML5, Tailwind CSS, JavaScript, Alpine JS, Chart.js.
+- **Database:** PostgreSQL.
+- **Infrastructure:** Docker, Gunicorn, Nginx.
 
 ## Setup
-1.  **Environment Variables:** Create a `.env` file with `DATABASE_URL`, `GEMINI_API_KEY`, and `REDIS_URL`.
-2.  **Docker:** Run `docker-compose up --build`.
-3.  **Migrations:** `flask db upgrade` to initialize the database.
+Please refer to the technical manual for deployment instructions.

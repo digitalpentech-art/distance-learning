@@ -1,0 +1,22 @@
+databases:
+  - name: distance-learning-db
+    plan: free
+    databaseName: distance_learning
+    user: distance_learning_user
+
+services:
+  - type: web
+    name: distance-learning-app
+    runtime: docker
+    envVars:
+      - key: FLASK_CONFIG
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: distance-learning-db
+          property: connectionString
+      - key: GEMINI_API_KEY
+        generateValue: true
+      - key: REDIS_URL
+        value: redis://red-xxxxx:6379
+    # Add Celery worker service if needed

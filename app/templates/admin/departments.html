@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Manage Departments</h2>
+<form method="POST">
+    <input type="text" name="name" placeholder="Department Name" required>
+    <select name="faculty_id" required>
+        {% for faculty in faculties %}
+        <option value="{{ faculty.id }}">{{ faculty.name }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Add Department</button>
+</form>
+<ul>
+    {% for dept in departments %}
+    <li>{{ dept.name }} ({{ dept.faculty.name }})</li>
+    {% endfor %}
+</ul>
+{% endblock %}

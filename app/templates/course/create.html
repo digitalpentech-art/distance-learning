@@ -1,19 +1,53 @@
 {% extends "base.html" %}
+
+{% block title %}Create Course{% endblock %}
+
 {% block content %}
-<h2 class="text-2xl mb-4">Create Course</h2>
-<form method="POST">
-    <div class="mb-4">
-        <label class="block">Course Name</label>
-        <input type="text" name="name" class="w-full border p-2" required>
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-2xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
+        <div class="px-6 py-4 bg-gray-100 border-b border-gray-200">
+            <h2 class="text-xl font-bold text-gray-800">Create New Course</h2>
+        </div>
+
+        <form method="POST" class="p-6 space-y-4">
+            <div>
+                <label for="name" class="block text-sm font-medium text-gray-700">Course Name</label>
+                <input type="text" name="name" id="name" required
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    placeholder="e.g., Introduction to Machine Learning">
+            </div>
+
+            <div>
+                <label for="subject_id" class="block text-sm font-medium text-gray-700">Subject</label>
+                <select name="subject_id" id="subject_id" required
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    <option value="" disabled selected>Select a subject</option>
+                    {% for subject in subjects %}
+                    <option value="{{ subject.id }}">{{ subject.code }} - {{ subject.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div>
+                <label for="semester_id" class="block text-sm font-medium text-gray-700">Semester</label>
+                <select name="semester_id" id="semester_id" required
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    <option value="" disabled selected>Select a semester</option>
+                    {% for semester in semesters %}
+                    <option value="{{ semester.id }}">{{ semester.name }} ({{ semester.session.name }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="flex items-center justify-end space-x-4 pt-4">
+                <a href="{{ url_for('course.list_courses') }}" class="text-gray-600 hover:text-gray-800 font-medium">
+                    Cancel
+                </a>
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">
+                    Create Course
+                </button>
+            </div>
+        </form>
     </div>
-    <div class="mb-4">
-        <label class="block">Subject ID</label>
-        <input type="number" name="subject_id" class="w-full border p-2" required>
-    </div>
-    <div class="mb-4">
-        <label class="block">Semester ID</label>
-        <input type="number" name="semester_id" class="w-full border p-2" required>
-    </div>
-    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Create</button>
-</form>
+</div>
 {% endblock %}

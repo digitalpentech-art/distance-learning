@@ -1,38 +1,47 @@
 from extensions import celery
-from app.services.ai_service import generate_course_content
+from app.services.ai_service import (
+    generate_course_outline, 
+    generate_quiz_questions, 
+    generate_exam_questions
+)
 
 @celery.task
 def generate_course_task(course_data):
-    # Construct a prompt based on course_data
-    prompt = f"Create a course outline for: {course_data.get('course_name')}, Level: {course_data.get('level')}, Difficulty: {course_data.get('difficulty')}"
+    # Call specialized service
+    content = generate_course_outline(
+        course_name=course_data.get('course_name'),
+        level=course_data.get('level'),
+        semester=course_data.get('semester'),
+        num_topics=course_data.get('num_topics'),
+        difficulty=course_data.get('difficulty')
+    )
     
-    # Call Gemini API
-    content = generate_course_content(prompt)
-    
-    # In a real app, you would save this content to the database here
-    print(f"Generated Content: {content}")
+    # In a real app, you would parse the Markdown and save it to the database here
+    print(f"Generated Course Content: {content}")
     return "Course structure generated successfully."
 
 @celery.task
 def generate_quiz_task(quiz_data):
-    # Construct a prompt for quiz generation
-    prompt = f"Create a {quiz_data.get('number_of_questions')} question quiz on {quiz_data.get('topic')} with difficulty {quiz_data.get('difficulty')}. Return in JSON format."
+    # Call specialized service
+    content = generate_quiz_questions(
+        topic=quiz_data.get('topic'),
+        num_questions=quiz_data.get('number_of_questions'),
+        difficulty=quiz_data.get('difficulty')
+    )
     
-    # Call Gemini API
-    content = generate_course_content(prompt)
-    
-    # In a real app, you would save this quiz to the database here
+    # In a real app, you would parse the output and save it to the database here
     print(f"Generated Quiz: {content}")
     return "Quiz generated successfully."
 
 @celery.task
 def generate_exam_task(exam_data):
-    # Construct a prompt for exam generation
-    prompt = f"Create a {exam_data.get('type')} exam for {exam_data.get('course_name')}. Include questions, answers, and a marking guide. Format as structured text."
+    # Call specialized service
+    content = generate_exam_questions(
+        course_name=exam_data.get('course_name'),
+        exam_type=exam_data.get('type'),
+        difficulty=exam_data.get('difficulty')
+    )
     
-    # Call Gemini API
-    content = generate_course_content(prompt)
-    
-    # In a real app, you would save this exam to the database here
+    # In a real app, you would parse the output and save it to the database here
     print(f"Generated Exam: {content}")
     return "Exam generated successfully."

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Grade Submission{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-2xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
+        <div class="px-6 py-4 bg-gray-100 border-b border-gray-200">
+            <h2 class="text-xl font-bold text-gray-800">Grade Assignment Submission</h2>
+            <p class="text-sm text-gray-600">Student: {{ submission.student.username }} | Assignment: {{ submission.assignment.title }}</p>
+        </div>
+
+        <form method="POST" class="p-6 space-y-4">
+            <div class="mb-4">
+                <p class="text-sm font-medium text-gray-700">Submitted File:</p>
+                <a href="{{ submission.file_path }}" target="_blank" class="text-blue-600 hover:text-blue-800 font-semibold text-sm underline">
+                    Click to Open/Download Submitted File
+                </a>
+            </div>
+
+            <div>
+                <label for="grade" class="block text-sm font-medium text-gray-700">Grade (out of 100)</label>
+                <input type="number" step="0.1" min="0" max="100" name="grade" id="grade" 
+                    value="{{ submission.grade if submission.grade is not none else '' }}" required
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    placeholder="e.g. 85.5">
+            </div>
+
+            <div>
+                <label for="remarks" class="block text-sm font-medium text-gray-700">Remarks / Feedback</label>
+                <textarea name="remarks" id="remarks" rows="5"
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    placeholder="Provide constructive feedback for the student...">{{ submission.remarks if submission.remarks else '' }}</textarea>
+            </div>
+
+            <div class="flex items-center justify-end space-x-4 pt-4">
+                <a href="{{ url_for('assignment.list_submissions', assignment_id=submission.assignment_id) }}" class="text-gray-600 hover:text-gray-800 font-medium">
+                    Cancel
+                </a>
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">
+                    Submit Grade
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
