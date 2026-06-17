@@ -19,4 +19,6 @@ services:
         generateValue: true
       - key: REDIS_URL
         value: redis://red-xxxxx:6379
+      - key: EVENTLET_DEBUG_RLOCK
+        value: '0'
     # Add Celery worker service if needed
