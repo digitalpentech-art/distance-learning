@@ -1,0 +1,19 @@
+<!-- Button Component -->
+{% macro btn(text, href='#', variant='primary') %}
+    {% set base = "px-4 py-2 rounded-lg font-medium transition duration-200" %}
+    {% if variant == 'primary' %}
+        <a href="{{ href }}" class="{{ base }} bg-indigo-600 text-white hover:bg-indigo-700">{{ text }}</a>
+    {% elif variant == 'secondary' %}
+        <a href="{{ href }}" class="{{ base }} bg-gray-200 text-gray-800 hover:bg-gray-300">{{ text }}</a>
+    {% endif %}
+{% endmacro %}
+
+<!-- Card Component -->
+{% macro card(title) %}
+    <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+        {% if title %}
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">{{ title }}</h3>
+        {% endif %}
+        {{ caller() }}
+    </div>
+{% endmacro %}
