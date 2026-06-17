@@ -23,11 +23,13 @@ def register():
         username = request.form.get('username')
         email = request.form.get('email')
         password = request.form.get('password')
-        role_name = request.form.get('role', 'student')
+        
+        # Hardcode role to 'Student' to prevent privilege escalation
+        role_name = 'Student'
         
         role = Role.query.filter_by(name=role_name).first()
         if not role:
-            # Create role if doesn't exist (basic setup)
+            # Create student role if doesn't exist
             role = Role(name=role_name)
             db.session.add(role)
             db.session.commit()
