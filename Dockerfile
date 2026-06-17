@@ -15,4 +15,4 @@ COPY . .
 
 # Run Gunicorn for production
 # Eventlet is used for SocketIO support
-CMD gunicorn --worker-class eventlet -w 1 run:app
+CMD ["gunicorn", "--worker-class", "eventlet", "-w", "1", "run:app"]

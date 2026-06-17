@@ -18,3 +18,4 @@ pytest
 pytest-flask
 gunicorn
 eventlet
+greenlet
