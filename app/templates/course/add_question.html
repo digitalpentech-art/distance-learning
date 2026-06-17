@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="text-2xl mb-4">Add Question</h2>
+<form method="POST">
+    <div class="mb-4">
+        <label class="block">Question Text</label>
+        <textarea name="text" class="w-full border p-2" required></textarea>
+    </div>
+    <div class="mb-4">
+        <label class="block">Type</label>
+        <select name="type" class="w-full border p-2">
+            <option value="MCQ">MCQ</option>
+            <option value="TrueFalse">True/False</option>
+        </select>
+    </div>
+    <div class="mb-4">
+        <label class="block">Options (for MCQ, comma separated)</label>
+        <input type="text" name="options" class="w-full border p-2">
+    </div>
+    <div class="mb-4">
+        <label class="block">Answer</label>
+        <input type="text" name="answer" class="w-full border p-2" required>
+    </div>
+    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Add Question</button>
+</form>
+{% endblock %}

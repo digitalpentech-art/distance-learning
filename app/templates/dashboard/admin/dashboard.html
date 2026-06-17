@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block header %}Admin Overview{% endblock %}
+{% block content %}
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="bg-indigo-50 p-6 rounded-lg border border-indigo-100">
+        <h2 class="text-lg font-semibold text-indigo-900">Total Courses</h2>
+        <p class="text-4xl font-bold text-indigo-700" id="total-courses">...</p>
+    </div>
+    <div class="bg-emerald-50 p-6 rounded-lg border border-emerald-100">
+        <h2 class="text-lg font-semibold text-emerald-900">Total Users</h2>
+        <p class="text-4xl font-bold text-emerald-700" id="total-users">...</p>
+    </div>
+</div>
+<div class="mt-8">
+    <canvas id="analyticsChart" class="max-h-80"></canvas>
+</div>
+
+<script>
+    fetch('/analytics/dashboard')
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById('total-courses').innerText = data.total_courses;
+            document.getElementById('total-users').innerText = data.total_users;
+            
+            new Chart(document.getElementById('analyticsChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['Courses', 'Users'],
+                    datasets: [{
+                        label: 'System Overview',
+                        data: [data.total_courses, data.total_users],
+                        backgroundColor: ['#312e81', '#065f46']
+                    }]
+                }
+            });
+        });
+</script>
+{% endblock %}

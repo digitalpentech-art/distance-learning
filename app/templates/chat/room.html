@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="text-2xl mb-4">Chat Room: {{ room }}</h2>
+<div id="messages" class="h-64 overflow-y-scroll border p-4 bg-white mb-4"></div>
+<input id="messageInput" class="border p-2 w-full" placeholder="Type a message...">
+<button id="sendBtn" class="bg-blue-500 text-white px-4 py-2 mt-2">Send</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.1/socket.io.js"></script>
+<script>
+    const socket = io();
+    const room = "{{ room }}";
+    
+    socket.on('connect', () => {
+        socket.emit('join', {room: room});
+    });
+
+    socket.on('message', (msg) => {
+        const div = document.getElementById('messages');
+        div.innerHTML += `<p>${msg}</p>`;
+    });
+
+    document.getElementById('sendBtn').onclick = () => {
+        const msg = document.getElementById('messageInput').value;
+        socket.emit('message', {room: room, message: msg});
+        document.getElementById('messageInput').value = '';
+    };
+</script>
+{% endblock %}

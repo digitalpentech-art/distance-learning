@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="text-2xl mb-4">Admin Dashboard</h1>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="bg-white p-4 rounded shadow">
+        <h2 class="text-lg font-bold">Total Students</h2>
+        <p class="text-3xl">{{ student_count }}</p>
+    </div>
+    <div class="bg-white p-4 rounded shadow">
+        <h2 class="text-lg font-bold">Total Courses</h2>
+        <p class="text-3xl">{{ course_count }}</p>
+    </div>
+</div>
+<canvas id="myChart" class="mt-8"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('myChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Students', 'Courses'],
+            datasets: [{
+                label: 'System Overview',
+                data: [{{ student_count }}, {{ course_count }}],
+                backgroundColor: ['rgba(54, 162, 235, 0.2)', 'rgba(255, 99, 132, 0.2)'],
+                borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 99, 132, 1)'],
+                borderWidth: 1
+            }]
+        }
+    });
+</script>
+{% endblock %}

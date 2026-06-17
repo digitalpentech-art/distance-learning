@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="p-6">
+    <h1 class="text-3xl font-bold mb-6">Lecturer Dashboard</h1>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white p-4 shadow rounded-lg">
+            <h2 class="text-xl font-semibold">Active Courses</h2>
+            <p class="text-4xl" id="active-courses">Loading...</p>
+        </div>
+        <div class="bg-white p-4 shadow rounded-lg">
+            <h2 class="text-xl font-semibold">Total Submissions</h2>
+            <p class="text-4xl" id="total-submissions">Loading...</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    fetch('/analytics/dashboard')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('active-courses').innerText = data.active_courses;
+            document.getElementById('total-submissions').innerText = data.total_submissions;
+        });
+</script>
+{% endblock %}

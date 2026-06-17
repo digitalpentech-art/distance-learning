@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="p-6">
+    <h1 class="text-3xl font-bold mb-6">Student Dashboard</h1>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-white p-4 shadow rounded-lg">
+            <h2 class="text-xl font-semibold">Average Score</h2>
+            <p class="text-4xl" id="avg-score">Loading...</p>
+        </div>
+        <div class="bg-white p-4 shadow rounded-lg">
+            <h2 class="text-xl font-semibold">Courses Completed</h2>
+            <p class="text-4xl" id="comp-courses">Loading...</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    fetch('/analytics/dashboard')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('avg-score').innerText = data.average_score + '%';
+            document.getElementById('comp-courses').innerText = data.completed_courses;
+        });
+</script>
+{% endblock %}

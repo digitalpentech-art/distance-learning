@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LMS Pro | AI-Powered Learning</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-50 text-gray-900 font-sans">
+
+    <div class="min-h-screen flex flex-col md:flex-row">
+        <!-- Sidebar -->
+        <aside class="w-full md:w-64 bg-indigo-900 text-white p-6">
+            <h1 class="text-2xl font-bold mb-10">LMS Pro</h1>
+            <nav class="space-y-4">
+                <a href="/" class="block hover:text-indigo-200">Dashboard</a>
+                <a href="/courses" class="block hover:text-indigo-200">Courses</a>
+                <a href="/assignments" class="block hover:text-indigo-200">Assignments</a>
+                <a href="/chat" class="block hover:text-indigo-200">Community Chat</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-8">
+            <header class="mb-8 flex justify-between items-center">
+                <h2 class="text-2xl font-semibold text-gray-800">{% block header %}{% endblock %}</h2>
+                <div class="text-sm text-gray-600">Welcome back, User</div>
+            </header>
+            
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>
