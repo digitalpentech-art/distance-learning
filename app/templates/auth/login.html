@@ -1,17 +1,21 @@
 {% extends "base.html" %}
+{% block header %}Login{% endblock %}
 {% block content %}
-<div class="max-w-md mx-auto bg-white p-6 rounded shadow">
-    <h2 class="text-2xl mb-4">Login</h2>
-    <form method="POST">
-        <div class="mb-4">
-            <label class="block">Username</label>
-            <input type="text" name="username" class="w-full border p-2" required>
-        </div>
-        <div class="mb-4">
-            <label class="block">Password</label>
-            <input type="password" name="password" class="w-full border p-2" required>
-        </div>
-        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Login</button>
-    </form>
+<div class="max-w-md mx-auto">
+    {% call comp.card() %}
+        <form method="POST" class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Username</label>
+                <input type="text" name="username" class="mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:ring-indigo-500 focus:border-indigo-500" required>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Password</label>
+                <input type="password" name="password" class="mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:ring-indigo-500 focus:border-indigo-500" required>
+            </div>
+            <div class="pt-2">
+                {{ comp.btn(text='Login', variant='primary', type='button') }}
+            </div>
+        </form>
+    {% endcall %}
 </div>
 {% endblock %}
