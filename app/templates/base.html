@@ -8,12 +8,20 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body class="bg-gray-50 text-gray-900 font-sans">
+<body class="bg-gray-50 text-gray-900 font-sans" x-data="{ sidebarOpen: false }">
 
     <div class="min-h-screen flex flex-col md:flex-row">
+        <!-- Mobile Sidebar Toggle -->
+        <div class="md:hidden p-4 bg-indigo-900 text-white flex justify-between items-center">
+            <h1 class="text-xl font-bold">LMS Pro</h1>
+            <button @click="sidebarOpen = !sidebarOpen">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+        </div>
+
         <!-- Sidebar -->
-        <aside class="w-full md:w-64 bg-indigo-900 text-white p-6">
-            <h1 class="text-2xl font-bold mb-10">LMS Pro</h1>
+        <aside class="fixed inset-y-0 left-0 transform md:relative md:translate-x-0 transition duration-200 ease-in-out bg-indigo-900 text-white p-6 w-64 z-20" :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'">
+            <h1 class="text-2xl font-bold mb-10 hidden md:block">LMS Pro</h1>
             <nav class="space-y-4">
                 <a href="/" class="block hover:text-indigo-200">Dashboard</a>
                 <a href="/courses" class="block hover:text-indigo-200">Courses</a>
@@ -23,10 +31,10 @@
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 p-8">
+        <main class="flex-1 p-8 overflow-y-auto">
             <header class="mb-8 flex justify-between items-center">
                 <h2 class="text-2xl font-semibold text-gray-800">{% block header %}{% endblock %}</h2>
-                <div class="text-sm text-gray-600">Welcome back, User</div>
+                <div class="text-sm text-gray-600 bg-white px-4 py-2 rounded-full shadow-sm">Welcome back, User</div>
             </header>
             
             <div class="bg-white rounded-xl shadow-sm p-6">
