@@ -2,6 +2,7 @@ from flask import render_template, redirect, url_for, flash
 from flask_login import login_required, current_user
 from . import chat
 from app.models.chat import ChatRoom
+from app.models.user import User
 from app.models.course_structure import Course
 from app.services.chat_service import ChatService
 
@@ -9,7 +10,8 @@ from app.services.chat_service import ChatService
 @login_required
 def index():
     """List of all chat rooms for the current user."""
-    rooms = current_user.chat_rooms.all()
+    # Assuming chat_rooms relationship is managed via ChatRoom.participants
+    rooms = ChatRoom.query.join(ChatRoom.participants).filter(User.id == current_user.id).all()
     return render_template('chat/index.html', rooms=rooms)
 
 @chat.route('/room/<int:room_id>')
