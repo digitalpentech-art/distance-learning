@@ -1,9 +1,33 @@
 {% extends "base.html" %}
-{% block header %}Welcome{% endblock %}
+{% import "partials/components.html" as comp %}
+{% block header %}Welcome to LMS Pro{% endblock %}
 {% block content %}
-    <div class="p-6">
-        <h1 class="text-3xl font-bold text-gray-800">Welcome to the LMS</h1>
-        <p class="mt-4 text-gray-600">Your AI-powered learning platform.</p>
+<div class="space-y-12">
+    <!-- Hero Section -->
+    <div class="text-center py-12 bg-indigo-50 rounded-2xl">
+        <h1 class="text-4xl font-extrabold text-indigo-900">Your AI-Powered Learning Journey</h1>
+        <p class="mt-4 text-xl text-indigo-700 max-w-2xl mx-auto">Master new skills with intelligent course generation, advanced analytics, and real-time collaboration.</p>
+        <div class="mt-8">
+            {% if not current_user.is_authenticated %}
+                {{ comp.btn(text='Get Started', href='/auth/register', variant='primary') }}
+            {% else %}
+                {{ comp.btn(text='Go to Dashboard', href='/', variant='primary') }}
+            {% endif %}
+        </div>
     </div>
+
+    <!-- Features Section -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {% call comp.card(title='Intelligent Courses') %}
+            <p class="text-gray-600">AI-generated content and personalized study recommendations to suit your pace.</p>
+        {% endcall %}
+        {% call comp.card(title='Real-time Collaboration') %}
+            <p class="text-gray-600">Connect with peers and lecturers in dedicated chat rooms for every course.</p>
+        {% endcall %}
+        {% call comp.card(title='Advanced Analytics') %}
+            <p class="text-gray-600">Track your progress and performance with rich, actionable data insights.</p>
+        {% endcall %}
+    </div>
+</div>
 {% endblock %}
 

@@ -33,6 +33,24 @@ def manage_faculties():
         return redirect(url_for('admin.manage_faculties'))
     faculties = Faculty.query.all()
     return render_template('admin/faculties.html', faculties=faculties)
+
+@admin.route('/departments', methods=['GET', 'POST'])
+@login_required
+@admin_required
+def manage_departments():
+    if request.method == 'POST':
+        name = request.form.get('name')
+        faculty_id = request.form.get('faculty_id')
+        if name and faculty_id:
+            new_dept = Department(name=name, faculty_id=faculty_id)
+            db.session.add(new_dept)
+            db.session.commit()
+            flash('Department added.')
+        return redirect(url_for('admin.manage_departments'))
+    departments = Department.query.all()
+    faculties = Faculty.query.all()
+    return render_template('admin/departments.html', departments=departments, faculties=faculties)
+
 @admin.route('/programmes', methods=['GET', 'POST'])
 @login_required
 @admin_required

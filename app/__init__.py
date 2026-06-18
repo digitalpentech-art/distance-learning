@@ -13,6 +13,25 @@ def create_app(config_name='default'):
     @login_manager.user_loader
     def load_user(user_id):
         return User.query.get(int(user_id))
+    
+    @app.context_processor
+    def inject_navigation():
+        from flask_login import current_user
+        
+        links = [
+            {'name': 'Dashboard', 'url': '/'},
+            {'name': 'Courses', 'url': '/courses'},
+            {'name': 'Assignments', 'url': '/assignments'},
+            {'name': 'Community Chat', 'url': '/chat'}
+        ]
+        
+        if current_user.is_authenticated:
+            if current_user.is_admin():
+                links.append({'name': 'Admin Panel', 'url': '/admin'})
+            if current_user.is_lecturer():
+                links.append({'name': 'Lecturer Panel', 'url': '/lecturer'})
+                
+        return dict(nav_links=links)
 
     # Register Blueprints
     from app.auth import auth as auth_blueprint

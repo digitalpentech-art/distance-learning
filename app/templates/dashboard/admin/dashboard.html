@@ -1,15 +1,14 @@
 {% extends "base.html" %}
+{% import 'partials/components.html' as comp %}
 {% block header %}Admin Overview{% endblock %}
 {% block content %}
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-    <div class="bg-indigo-50 p-6 rounded-lg border border-indigo-100">
-        <h2 class="text-lg font-semibold text-indigo-900">Total Courses</h2>
+    {% call comp.card(title='Total Courses') %}
         <p class="text-4xl font-bold text-indigo-700" id="total-courses">...</p>
-    </div>
-    <div class="bg-emerald-50 p-6 rounded-lg border border-emerald-100">
-        <h2 class="text-lg font-semibold text-emerald-900">Total Users</h2>
+    {% endcall %}
+    {% call comp.card(title='Total Users') %}
         <p class="text-4xl font-bold text-emerald-700" id="total-users">...</p>
-    </div>
+    {% endcall %}
 </div>
 <div class="mt-8">
     <canvas id="analyticsChart" class="max-h-80"></canvas>

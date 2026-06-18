@@ -1,18 +1,39 @@
 {% extends "base.html" %}
+{% import "partials/components.html" as comp %}
+{% block header %}Manage Departments{% endblock %}
 {% block content %}
-<h2>Manage Departments</h2>
-<form method="POST">
-    <input type="text" name="name" placeholder="Department Name" required>
-    <select name="faculty_id" required>
-        {% for faculty in faculties %}
-        <option value="{{ faculty.id }}">{{ faculty.name }}</option>
-        {% endfor %}
-    </select>
-    <button type="submit">Add Department</button>
-</form>
-<ul>
-    {% for dept in departments %}
-    <li>{{ dept.name }} ({{ dept.faculty.name }})</li>
-    {% endfor %}
-</ul>
+<div class="max-w-4xl mx-auto">
+    {% call comp.card(title='Add Department') %}
+        <form method="POST" class="space-y-4">
+            <input type="text" name="name" placeholder="Department Name" class="block w-full border border-gray-300 rounded-lg p-2" required>
+            <select name="faculty_id" class="block w-full border border-gray-300 rounded-lg p-2" required>
+                {% for faculty in faculties %}
+                    <option value="{{ faculty.id }}">{{ faculty.name }}</option>
+                {% endfor %}
+            </select>
+            {{ comp.btn(text='Add Department', variant='primary', type='button') }}
+        </form>
+    {% endcall %}
+
+    <div class="mt-8">
+        {% call comp.card(title='Departments') %}
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Faculty</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    {% for dept in departments %}
+                    <tr>
+                        <td class="px-6 py-4">{{ dept.name }}</td>
+                        <td class="px-6 py-4">{{ dept.faculty.name }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endcall %}
+    </div>
+</div>
 {% endblock %}
